@@ -1,3 +1,3 @@
-# Helm Publish Test
+# DocFunc Helm Chart Repository
 
-This is a test of publishing a Helm chart to GitHub Pages.
+This project is publishing a DocFunc Helm chart to GitHub Pages.
