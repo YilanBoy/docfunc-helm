@@ -1,3 +1,3 @@
-# DocFunc Helm Chart
+# Helm Publish Test
 
-This is a Helm chart for deploying my blog.
+This is a test of publishing a Helm chart to GitHub Pages.
