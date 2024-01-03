@@ -1,0 +1,14 @@
+apiVersion: v1
+entries:
+  docfunc:
+  - apiVersion: v2
+    appVersion: 1.16.0
+    created: "2024-01-03T08:23:20.020330148Z"
+    description: This the DocFunc Helm chart for Kubernetes
+    digest: 834eeeb162164def1c6eac4409b736f40f9707bb4c0297935d1300bc6cdb17cd
+    name: docfunc
+    type: application
+    urls:
+    - https://github.com/YilanBoy/docfunc-helm/releases/download/docfunc-0.1.1/docfunc-0.1.1.tgz
+    version: 0.1.1
+generated: "2024-01-03T08:23:20.020335569Z"
