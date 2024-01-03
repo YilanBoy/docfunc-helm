@@ -1,0 +1,52 @@
+apiVersion: batch/v1
+kind: CronJob
+metadata:
+  namespace: docfunc
+  name: mysql-backup-cronjob
+spec:
+  schedule: "0 * * * *"
+  jobTemplate:
+    spec:
+      template:
+        spec:
+          containers:
+            - name: mysql-backup-cronjob
+              image: nella0128/aws-mysql-client:{{ .Values.blogVersion }}
+              imagePullPolicy: "Always"
+              command:
+                - "/bin/bash"
+                - "-c"
+                - |
+                  mysqldump --no-tablespaces -h $DATABASE_HOST -P $DATABASE_PORT -u $DATABASE_USER --password=$DATABASE_PASSWORD $DATABASE_NAME > $BACKUP_FILE_NAME
+                  aws s3 cp $BACKUP_FILE_NAME s3://$S3_BUCKET_NAME/$(date +'%Y%m%d%H')_$BACKUP_FILE_NAME
+              env:
+                - name: DATABASE_HOST
+                  value: mysql-service
+                - name: DATABASE_PORT
+                  value: "3306"
+                - name: DATABASE_USER
+                  value: blog_admin
+                - name: DATABASE_PASSWORD
+                  valueFrom:
+                    secretKeyRef:
+                      key: mysql_password
+                      name: secrets
+                - name: DATABASE_NAME
+                  value: blog
+                - name: BACKUP_FILE_NAME
+                  value: blog.sql
+                - name: S3_BUCKET_NAME
+                  value: docfunc-backups
+                - name: AWS_ACCESS_KEY_ID
+                  valueFrom:
+                    secretKeyRef:
+                      key: aws_access_key_id
+                      name: secrets
+                - name: AWS_SECRET_ACCESS_KEY
+                  valueFrom:
+                    secretKeyRef:
+                      key: aws_secret_access_key
+                      name: secrets
+                - name: AWS_DEFAULT_REGION
+                  value: ap-northeast-1
+          restartPolicy: OnFailure

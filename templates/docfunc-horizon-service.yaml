@@ -1,0 +1,9 @@
+apiVersion: v1
+kind: Service
+metadata:
+  namespace: docfunc
+  name: docfunc-horizon
+spec:
+  clusterIP: None
+  selector:
+    app: docfunc-horizon

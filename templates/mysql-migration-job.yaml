@@ -1,0 +1,54 @@
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: mysql-migration-job
+  namespace: docfunc
+  annotations:
+    argocd.argoproj.io/hook: PostSync
+    argocd.argoproj.io/hook-delete-policy: HookSucceeded
+spec:
+  template:
+    spec:
+      containers:
+        - name: mysql-backup-cronjob
+          image: nella0128/aws-mysql-client:{{ .Values.blogVersion }}
+          imagePullPolicy: "Always"
+          command:
+            - "/bin/bash"
+            - "-c"
+            - |
+              sleep 30s # wait for mysql to be ready
+              OBJECT_KEY=$(aws s3 ls s3://$S3_BUCKET_NAME --recursive | sort | tail -n 1 | awk '{print $4}')
+              aws s3 cp s3://$S3_BUCKET_NAME/$OBJECT_KEY /tmp/migration.sql
+              cat /tmp/migration.sql | mysql -h $DATABASE_HOST -P $DATABASE_PORT -u $DATABASE_USER --password=$DATABASE_PASSWORD $DATABASE_NAME
+          env:
+            - name: DATABASE_HOST
+              value: mysql-service
+            - name: DATABASE_PORT
+              value: "3306"
+            - name: DATABASE_USER
+              value: blog_admin
+            - name: DATABASE_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  key: mysql_password
+                  name: secrets
+            - name: DATABASE_NAME
+              value: blog
+            - name: BACKUP_FILE_NAME
+              value: blog.sql
+            - name: S3_BUCKET_NAME
+              value: docfunc-backups
+            - name: AWS_ACCESS_KEY_ID
+              valueFrom:
+                secretKeyRef:
+                  key: aws_access_key_id
+                  name: secrets
+            - name: AWS_SECRET_ACCESS_KEY
+              valueFrom:
+                secretKeyRef:
+                  key: aws_secret_access_key
+                  name: secrets
+            - name: AWS_DEFAULT_REGION
+              value: ap-northeast-1
+      restartPolicy: Never

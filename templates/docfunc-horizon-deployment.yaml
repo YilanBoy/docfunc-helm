@@ -1,0 +1,82 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  namespace: docfunc
+  name: docfunc-horizon
+  labels:
+    app: docfunc-horizon
+spec:
+  revisionHistoryLimit: 1
+  replicas: 1
+  selector:
+    matchLabels:
+      app: docfunc-horizon
+  template:
+    metadata:
+      labels:
+        app: docfunc-horizon
+      annotations:
+        reloader.stakater.com/auto: "true"
+    spec:
+      containers:
+        - name: docfunc-horizon
+          image: nella0128/docfunc-horizon:{{ .Values.blogVersion }}
+          imagePullPolicy: "Always"
+          resources:
+            limits:
+              cpu: "0.5"
+              memory: "250Mi"
+          envFrom:
+            - configMapRef:
+                name: docfunc-config
+          env:
+            - name: APP_KEY
+              valueFrom:
+                secretKeyRef:
+                  key: app_key
+                  name: secrets
+            - name: DB_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  key: mysql_password
+                  name: secrets
+            - name: REDIS_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  key: redis_password
+                  name: secrets
+            - name: MAIL_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  key: mail_password
+                  name: secrets
+            - name: AWS_ACCESS_KEY_ID
+              valueFrom:
+                secretKeyRef:
+                  key: aws_access_key_id
+                  name: secrets
+            - name: AWS_SECRET_ACCESS_KEY
+              valueFrom:
+                secretKeyRef:
+                  key: aws_secret_access_key
+                  name: secrets
+            - name: CAPTCHA_SITE_KEY
+              valueFrom:
+                secretKeyRef:
+                  key: captcha_site_key
+                  name: secrets
+            - name: CAPTCHA_SECRET_KEY
+              valueFrom:
+                secretKeyRef:
+                  key: captcha_secret_key
+                  name: secrets
+            - name: ALGOLIA_APP_ID
+              valueFrom:
+                secretKeyRef:
+                  key: algolia_app_id
+                  name: secrets
+            - name: ALGOLIA_SECRET
+              valueFrom:
+                secretKeyRef:
+                  key: algolia_secret
+                  name: secrets
