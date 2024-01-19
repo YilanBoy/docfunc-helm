@@ -22,5 +22,5 @@ Then you can use `kubeseal` to encrypt the secrets.
 > You need to install `kubeseal` first.
 
 ```bash
-kubeseal <secrets.yaml -o yaml > encrypted-secrets.yaml
+kubeseal -f mysecret.yaml -w mysealedsecret.yaml
 ```
