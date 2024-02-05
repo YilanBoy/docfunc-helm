@@ -42,7 +42,8 @@ data:
   MAIL_FROM_NAME: "DocFunc"
   # aws
   AWS_DEFAULT_REGION: "ap-northeast-1"
-  AWS_BUCKET: "docfunc-files"
+  AWS_BUCKET: "{{ .Values.aws_bucket }}"
+  AWS_URL: "{{ .Values.aws_url }}"
   AWS_USE_PATH_STYLE_ENDPOINT: "false"
   # laravel scout
   SCOUT_PREFIX: "posts"
