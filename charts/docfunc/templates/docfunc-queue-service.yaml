@@ -2,8 +2,8 @@ apiVersion: v1
 kind: Service
 metadata:
   namespace: docfunc
-  name: docfunc-horizon
+  name: docfunc-queue
 spec:
   clusterIP: None
   selector:
-    app: docfunc-horizon
+    app: docfunc-queue

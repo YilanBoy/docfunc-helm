@@ -2,25 +2,25 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   namespace: docfunc
-  name: docfunc-horizon
+  name: docfunc-queue
   labels:
-    app: docfunc-horizon
+    app: docfunc-queue
 spec:
   revisionHistoryLimit: 1
   replicas: 1
   selector:
     matchLabels:
-      app: docfunc-horizon
+      app: docfunc-queue
   template:
     metadata:
       labels:
-        app: docfunc-horizon
+        app: docfunc-queue
       annotations:
         reloader.stakater.com/auto: "true"
     spec:
       containers:
-        - name: docfunc-horizon
-          image: nella0128/docfunc-horizon:{{ .Values.blogVersion }}
+        - name: docfunc-queue
+          image: nella0128/docfunc-queue:{{ .Values.blogVersion }}
           imagePullPolicy: "Always"
           resources:
             limits:
