@@ -1,4 +1,4 @@
-blogVersion: 0.1.27
+blogVersion: 0.1.34
 
 aws_bucket: blobs.docfunc.com
 aws_url: https://blobs.docfunc.com
