@@ -20,7 +20,7 @@ spec:
     spec:
       containers:
         - name: docfunc-scheduler
-          image: nella0128/docfunc-scheduler:{{ .Values.blogVersion }}
+          image: nella0128/docfunc-scheduler:{{ .Values.docfuncVersion }}
           imagePullPolicy: "Always"
           resources:
             limits:

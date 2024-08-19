@@ -11,7 +11,7 @@ spec:
     spec:
       containers:
         - name: mysql-backup-cronjob
-          image: nella0128/aws-mysql-client:{{ .Values.blogVersion }}
+          image: nella0128/aws-mysql-client:{{ .Values.docfuncVersion }}
           imagePullPolicy: "Always"
           command:
             - "/bin/bash"

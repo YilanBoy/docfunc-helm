@@ -20,7 +20,7 @@ spec:
     spec:
       containers:
         - name: docfunc-queue
-          image: nella0128/docfunc-queue:{{ .Values.blogVersion }}
+          image: nella0128/docfunc-queue:{{ .Values.docfuncVersion }}
           imagePullPolicy: "Always"
           resources:
             limits:

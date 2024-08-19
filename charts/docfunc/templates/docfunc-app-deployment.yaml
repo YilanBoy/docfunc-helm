@@ -24,7 +24,7 @@ spec:
     spec:
       containers:
         - name: docfunc-app
-          image: nella0128/docfunc-app:{{ .Values.blogVersion }}
+          image: nella0128/docfunc-app:{{ .Values.docfuncVersion }}
           imagePullPolicy: "Always"
           resources:
             limits:
